@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# SQLite
+*.sqlite3
+db.sqlite3
+
+# Environment variables
+.env
+
+# Django
+staticfiles/
+media/
+
+# Expo / Node
+node_modules/
+.expo/
+dist/
