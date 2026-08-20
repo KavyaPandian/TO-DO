@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+backend/venv/
+backend/.env
+backend/db.sqlite3
+
+# React Native / Expo
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+
+# Environment
+.env
+
+# VS Code
+.vscode/
