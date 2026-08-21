@@ -28,9 +28,9 @@ export default function HomeScreen() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deviceId, setDeviceId] = useState<string | null>(null);
 
-  // ==========================================
+ 
   // GET / CREATE DEVICE ID
-  // ==========================================
+
 
   const getDeviceId = async (): Promise<string> => {
     try {
@@ -75,9 +75,9 @@ export default function HomeScreen() {
     }
   };
 
-  // ==========================================
+  
   // INITIALIZE DEVICE
-  // ==========================================
+  
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -101,9 +101,9 @@ export default function HomeScreen() {
     initializeApp();
   }, []);
 
-  // ==========================================
+ 
   // GET TODOS
-  // ==========================================
+  
 
   const fetchTodos = async () => {
     try {
@@ -165,9 +165,9 @@ export default function HomeScreen() {
     fetchTodos();
   }, []);
 
-  // ==========================================
+
   // ADD TODO
-  // ==========================================
+  
 
   const addTodo = async () => {
     if (task.trim() === '') {
@@ -244,9 +244,9 @@ export default function HomeScreen() {
     }
   };
 
-  // ==========================================
+  
   // TOGGLE TODO
-  // ==========================================
+  
 
   const toggleTodo = async (
     todo: Todo
@@ -317,9 +317,9 @@ export default function HomeScreen() {
     }
   };
 
-  // ==========================================
+
   // DELETE TODO
-  // ==========================================
+  
 
   const deleteTodo = async (
     id: number
@@ -375,9 +375,9 @@ export default function HomeScreen() {
     }
   };
 
-  // ==========================================
+
   // START EDIT
-  // ==========================================
+  
 
   const editTodo = (
     todo: Todo
@@ -386,9 +386,9 @@ export default function HomeScreen() {
     setEditingId(todo.id);
   };
 
-  // ==========================================
+
   // UPDATE TODO
-  // ==========================================
+ 
 
   const updateTodo = async () => {
     if (
@@ -463,9 +463,9 @@ export default function HomeScreen() {
     }
   };
 
-  // ==========================================
+
   // UI
-  // ==========================================
+
 
   return (
     <View style={styles.container}>
@@ -627,9 +627,9 @@ export default function HomeScreen() {
   );
 }
 
-// ==========================================
+
 // STYLES
-// ==========================================
+
 
 const styles =
   StyleSheet.create({
