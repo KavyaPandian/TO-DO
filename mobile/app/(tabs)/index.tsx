@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as Application from 'expo-application';
 import {
   FlatList,
   Pressable,
@@ -13,128 +14,148 @@ type Todo = {
   title: string;
   completed: boolean;
   created_at?: string;
+  device_id?: string;
 };
 
-const API_URL = 'http://192.168.0.6:8000/api/todos/';
+const API_URL =
+  'https://kavya-todo-backend-final.onrender.com/api/todos/';
+
+// Get a unique ID for this Android device
+const DEVICE_ID = Application.getAndroidId();
+
+console.log('Device ID:', DEVICE_ID);
+
+// Common headers for every API request
+const getHeaders = () => ({
+  'Content-Type': 'application/json',
+  'X-Device-ID': DEVICE_ID,
+});
 
 export default function HomeScreen() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [task, setTask] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  // =========================
+  // ==========================================
   // GET TODOS
-  // =========================
+  // ==========================================
 
   const fetchTodos = async () => {
-  try {
-    console.log('Fetching todos from:', API_URL);
+    try {
+      console.log('Fetching todos from:', API_URL);
+      console.log('Device ID:', DEVICE_ID);
 
-    const response = await fetch(API_URL);
+      const response = await fetch(API_URL, {
+        headers: getHeaders(),
+      });
 
-    console.log('Response status:', response.status);
+      console.log('Response status:', response.status);
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch todos');
+      if (!response.ok) {
+        throw new Error('Failed to fetch todos');
+      }
+
+      const data = await response.json();
+
+      console.log('Received data:', data);
+
+      setTodos(data);
+    } catch (error) {
+      console.error('Fetch error:', error);
     }
+  };
 
-    const data = await response.json();
-
-    console.log('Received data:', data);
-
-    setTodos(data);
-  } catch (error) {
-    console.error('Fetch error:', error);
-  }
-};
   // Run when screen loads
   useEffect(() => {
     fetchTodos();
   }, []);
 
-  // =========================
+  // ==========================================
   // ADD TODO
-  // =========================
+  // ==========================================
 
   const addTodo = async () => {
-  if (task.trim() === '') {
-    return;
-  }
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: task.trim(),
-        completed: false,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add todo');
+    if (task.trim() === '') {
+      return;
     }
 
-    const newTodo = await response.json();
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({
+          title: task.trim(),
+          completed: false,
+        }),
+      });
 
-    console.log('Created todo:', newTodo);
+      if (!response.ok) {
+        throw new Error('Failed to add todo');
+      }
 
-    setTodos((previousTodos) => [
-      ...previousTodos,
-      newTodo,
-    ]);
+      const newTodo = await response.json();
 
-    setTask('');
-  } catch (error) {
-    console.error('Add error:', error);
-  }
-};
+      console.log('Created todo:', newTodo);
 
-  // =========================
+      setTodos((previousTodos) => [
+        ...previousTodos,
+        newTodo,
+      ]);
+
+      setTask('');
+    } catch (error) {
+      console.error('Add error:', error);
+    }
+  };
+
+  // ==========================================
   // TOGGLE TODO
-  // =========================
+  // ==========================================
 
   const toggleTodo = async (todo: Todo) => {
-  try {
-    const response = await fetch(`${API_URL}${todo.id}/`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        completed: !todo.completed,
-      }),
-    });
+    try {
+      const response = await fetch(
+        `${API_URL}${todo.id}/`,
+        {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            completed: !todo.completed,
+          }),
+        }
+      );
 
-    if (!response.ok) {
-      throw new Error('Failed to update todo');
+      if (!response.ok) {
+        throw new Error('Failed to update todo');
+      }
+
+      const updatedTodo = await response.json();
+
+      console.log('Updated todo:', updatedTodo);
+
+      setTodos((previousTodos) =>
+        previousTodos.map((item) =>
+          item.id === todo.id ? updatedTodo : item
+        )
+      );
+    } catch (error) {
+      console.error('Toggle error:', error);
     }
+  };
 
-    const updatedTodo = await response.json();
-
-    console.log('Updated todo:', updatedTodo);
-
-    setTodos((previousTodos) =>
-      previousTodos.map((item) =>
-        item.id === todo.id ? updatedTodo : item
-      )
-    );
-  } catch (error) {
-    console.error('Toggle error:', error);
-  }
-};
-
-  // =========================
+  // ==========================================
   // DELETE TODO
-  // =========================
+  // ==========================================
 
   const deleteTodo = async (id: number) => {
     try {
-      const response = await fetch(`${API_URL}${id}/`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `${API_URL}${id}/`,
+        {
+          method: 'DELETE',
+          headers: getHeaders(),
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Failed to delete todo');
@@ -148,18 +169,18 @@ export default function HomeScreen() {
     }
   };
 
-  // =========================
+  // ==========================================
   // START EDIT
-  // =========================
+  // ==========================================
 
   const editTodo = (todo: Todo) => {
     setTask(todo.title);
     setEditingId(todo.id);
   };
 
-  // =========================
+  // ==========================================
   // UPDATE TODO
-  // =========================
+  // ==========================================
 
   const updateTodo = async () => {
     if (task.trim() === '' || editingId === null) {
@@ -171,9 +192,7 @@ export default function HomeScreen() {
         `${API_URL}${editingId}/`,
         {
           method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: getHeaders(),
           body: JSON.stringify({
             title: task.trim(),
           }),
@@ -198,6 +217,10 @@ export default function HomeScreen() {
       console.error('Update error:', error);
     }
   };
+
+  // ==========================================
+  // UI
+  // ==========================================
 
   return (
     <View style={styles.container}>
@@ -310,6 +333,10 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+// ==========================================
+// STYLES
+// ==========================================
 
 const styles = StyleSheet.create({
 

@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Todo(models.Model):
+    device_id = models.CharField(max_length=255, db_index=True)
     title = models.CharField(max_length=255)
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
