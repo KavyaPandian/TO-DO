@@ -1,10 +1,10 @@
-# 📱 To-Do – Full Stack Mobile Task Management Application
+# To-Do – Full Stack Mobile Task Management Application
 
 A full-stack mobile task management application developed using **React Native, Expo, Django REST Framework, and PostgreSQL**. The application helps users organize daily activities, manage tasks efficiently, and track their progress through a simple, intuitive mobile interface.
 
 The project demonstrates mobile application development, RESTful API integration, backend development, and relational database management.
 
-## 🚀 Features
+##  Features
 
 - **Task Creation:** Add new tasks to organize daily activities.
 - **View Tasks:** Access and manage existing tasks.
@@ -15,7 +15,7 @@ The project demonstrates mobile application development, RESTful API integration
 - **Database Integration:** Store and retrieve task information using PostgreSQL.
 - **Mobile-Friendly UI:** Interactive interface developed using React Native and Expo.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technologies |
 |---|---|
@@ -26,7 +26,7 @@ The project demonstrates mobile application development, RESTful API integration
 | API Architecture | RESTful APIs |
 | Development Tools | VS Code, Git, GitHub |
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 TO-DO/
@@ -143,11 +143,11 @@ Django REST Framework
 React Native Mobile UI
 ```
 
-## 📱 Application Screenshots
+## Application Screenshots
 
 Screenshots of the mobile application can be added here to demonstrate the user interface and task management functionality.
 
-## 🎯 Project Objectives
+## Project Objectives
 
 - Develop a functional mobile task management application.
 - Implement CRUD operations using RESTful APIs.
@@ -155,7 +155,7 @@ Screenshots of the mobile application can be added here to demonstrate the user 
 - Use PostgreSQL for persistent task data storage.
 - Gain practical experience in full-stack mobile application development.
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - User authentication and personalized task management.
 - Task priority levels and due dates.
